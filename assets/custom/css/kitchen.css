@@ -1,0 +1,12 @@
+.item .label{
+    position: absolute;
+    top: 0px;
+    left: 30px;
+    background: #00acac;
+    width: 17px;
+    height: 17px;
+    line-height: 17px;
+    font-weight: 600;
+    padding: 3px 6px;
+    border-radius: 50%;
+}

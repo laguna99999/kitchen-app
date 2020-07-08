@@ -13,63 +13,104 @@
         <link href="assets/custom/css/kitchen.css" rel="stylesheet" />
     </head>
     <body>
-        <div id="header" class="header navbar-default">
-            <div class="navbar-header">
-                <a href="index.html" class="navbar-brand">
-                    <span class="navbar-logo"></span>
-                    <b>Kitchen</b> app
-                </a>
-                <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <ul class="navbar-nav navbar-right">
-                <li class="navbar-form">
-                    <form action="" method="POST" name="search_form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter keyword" />
-                            <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
-                        </div>
-                    </form>
-                </li>
-                <li class="dropdown">
-					<a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14" aria-expanded="false">
-						<i class="fa fa-bell"></i>
-						<span class="label">1</span>
-					</a>
-					<div class="dropdown-menu media-list dropdown-menu-right">
-                        <div class="dropdown-header">NOTIFICATIONS (1)</div>
-                        <a href="javascript:;" class="dropdown-item media">
-							<div class="media-left">
-								<i class="fa fa-circle fa-3x fa-user-circle"></i>
-							</div>
-							<div class="media-body">
-								<h6 class="media-heading"> Welcome back! You have logged in.</h6>
-								<div class="text-muted f-s-10">1 min ago</div>
-							</div>
-						</a>
-                        <div class="dropdown-footer text-center">
-							<a href="javascript:;">View more</a>
-						</div>
-					</div>
-				</li>
-                <li class="dropdown navbar-user">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-circle fa-user-circle"></i>
-                        <span class="d-none d-md-inline">laguna</span> <b class="caret"></b>
+        <div id="page-container" class="fade page-sidebar-fixed page-header-fixed show has-scroll">
+            <div id="header" class="header navbar-default">
+                <div class="navbar-header">
+                    <a href="index.html" class="navbar-brand">
+                        <span class="navbar-logo"></span>
+                        <b>Kitchen</b> app
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-						<a href="javascript:;" class="dropdown-item">Log Out</a>
-                    </div>
-                </li>
-            </ul>
+                    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <ul class="navbar-nav navbar-right">
+                    <li class="navbar-form">
+                        <form name="search_form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Enter keyword" />
+                                <button class="btn btn-search"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
+                    </li>
+                    <li class="dropdown">
+    					<a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14" aria-expanded="false">
+    						<i class="fa fa-bell"></i>
+    						<span class="label">1</span>
+    					</a>
+    					<div class="dropdown-menu media-list dropdown-menu-right">
+                            <div class="dropdown-header">NOTIFICATIONS (1)</div>
+                            <a href="javascript:;" class="dropdown-item media">
+    							<div class="media-left">
+    								<i class="fa fa-circle fa-3x fa-user-circle"></i>
+    							</div>
+    							<div class="media-body">
+    								<h6 class="media-heading"> Welcome back! You have logged in.</h6>
+    								<div class="text-muted f-s-10">1 min ago</div>
+    							</div>
+    						</a>
+                            <div class="dropdown-footer text-center">
+    							<a href="javascript:;">View more</a>
+    						</div>
+    					</div>
+    				</li>
+                    <li class="dropdown navbar-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-circle fa-user-circle"></i>
+                            <span class="d-none d-md-inline">Admin</span> <b class="caret"></b>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+    						<a href="javascript:;" class="dropdown-item">Log Out</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="sidebar" class="sidebar">
+                <div data-scrollbar="true" data-height="100%">
+                    <ul class="nav">
+    					<li class="nav-profile">
+    						<a href="javascript:;" data-toggle="nav-profile">
+    							<div class="cover with-shadow"></div>
+    							<div class="image w-100">
+    								<img src="assets/img/media/logo.png" alt="">
+    							</div>
+    							<div class="info">
+    								<b class="caret pull-right"></b>Admin
+    								<small>Kitchen manager</small>
+    							</div>
+    						</a>
+    					</li>
+    					<li>
+    						<ul class="nav nav-profile closed" style="display: none;">
+    							<li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
+    							<li><a href="javascript:;"><i class="fa fa-question-circle"></i> Tutorial</a></li>
+                                <li><a href="javascript:;"><i class="fa fa-sign-out-alt"></i> Log out</a></li>
+    						</ul>
+    					</li>
+    				</ul>
+                    <ul class="nav">
+                        <li class="nav-header">Items to be cooked</li>
+                    </ul>
+                    <ul class="nav item-list m-t-10">
+
+                    </ul>
+                </div>
+            </div>
+
+            <div id="content" class="content">
+                <h1 class="page-header float-xl-right timestamp"></h1>
+            </div>
         </div>
+
         <script type="text/javascript" src="assets/js/app.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/moment/moment.min.js"></script>
         <script type="text/javascript" src="assets/plugins/gritter/js/jquery.gritter.min.js"></script>
 
         <script type="text/javascript" src="assets/js/default.min.js"></script>
+        <script type="text/javascript" src="assets/custom/data/data.js"></script>
         <script type="text/javascript" src="assets/custom/js/kitchen.js"></script>
     </body>
 </html>
