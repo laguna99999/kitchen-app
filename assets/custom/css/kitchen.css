@@ -10,3 +10,55 @@
     padding: 3px 6px;
     border-radius: 50%;
 }
+#gritter-notice-wrapper{
+    bottom: 20px;
+    top: unset;
+}
+.item-title ul.ingredients{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.item-title ul.ingredients li{
+    display: inline;
+    font-size: 14px;
+    margin: 0 3px;
+}
+.item-title ul.ingredients li a{
+    color: gray;
+}
+.item-attributes ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.item-attributes ul li{
+    position: relative;
+    padding-left: 25px;
+}
+.item-attributes ul li i{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -.625rem;
+    line-height: 1.25rem;
+    font-size: 7px;
+    text-align: center;
+    color: #00acac;
+}
+.item-image{
+    width: 80%;
+}
+.keyboard div{
+    background: linear-gradient(to bottom,#a57ee6 0,#783eda 100%)!important;
+    text-align: center;
+
+    color: white;
+    border-radius: 50%;
+    font-size: 15px;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}

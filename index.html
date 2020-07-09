@@ -73,9 +73,9 @@
                     <ul class="nav">
     					<li class="nav-profile">
     						<a href="javascript:;" data-toggle="nav-profile">
-    							<div class="cover with-shadow"></div>
+    							<div class="cover with-shadow w-100"></div>
     							<div class="image w-100">
-    								<img src="assets/img/media/logo.png" alt="">
+                                    <img src="assets/img/media/wushilogo.png" alt="Wushi land logo" class="w-100">
     							</div>
     							<div class="info">
     								<b class="caret pull-right"></b>Admin
@@ -101,9 +101,55 @@
             </div>
 
             <div id="content" class="content">
-                <h1 class="page-header float-xl-right timestamp"></h1>
+                <h1 class="page-header timestamp text-muted">TIMESTAMP</h1>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget widget-rounded m-b-30" data-id="widget">
+    						<div class="widget-header">
+    							<h4 class="widget-header-title">Item Overview</h4>
+    						</div>
+    						<div class="vertical-box with-grid with-border-top item-details">
+
+    						</div>
+    					</div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="modal fade show" id="cook-item-modal" aria-modal="true" style="display: none;">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">FOOD NAME AND SIMPLE DESCRIPTION</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+                        <div class="select_cook_option w-100 d-flex justify-content-between">
+                            <span class="f-s-15 f-w-700">Cooking option</span>
+                            <div class="">
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input class="custom-control-input" type="radio" name="cook_option" id="amount_cook" value="amount">
+                                    <label class="custom-control-label" for="amount_cook">Custom cook</label>
+                                </div>
+                                <div class="custom-control custom-control-inline custom-radio">
+                                    <input class="custom-control-input" type="radio" name="cook_option" id="batch_cook" value="batch" checked>
+                                    <label class="custom-control-label" for="batch_cook">Batch cook</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="cook_option">
+
+                        </div>
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+						<a href="javascript:;" class="btn btn-success">Start cooking</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
         <script type="text/javascript" src="assets/js/app.min.js"></script>
         <script type="text/javascript" src="assets/plugins/moment/moment.min.js"></script>
