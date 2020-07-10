@@ -1,3 +1,5 @@
+const CLASS = ['green-darker', 'success', 'warning', 'danger'];
+
 let all_items = [
     {
         "id":1,

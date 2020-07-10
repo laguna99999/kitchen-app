@@ -35,12 +35,11 @@
                             </div>
                         </form>
                     </li>
-                    <li class="dropdown">
-    					<a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14" aria-expanded="false">
+                    <li class="dropdown kitchen-notifications">
+    					<a href="javascript:;" data-toggle="dropdown" class="notification-count dropdown-toggle f-s-14" aria-expanded="false">
     						<i class="fa fa-bell"></i>
-    						<span class="label">1</span>
     					</a>
-    					<div class="dropdown-menu media-list dropdown-menu-right">
+    					<div class="dropdown-menu media-list dropdown-menu-right notifications">
                             <div class="dropdown-header">NOTIFICATIONS (1)</div>
                             <a href="javascript:;" class="dropdown-item media">
     							<div class="media-left">
@@ -52,7 +51,7 @@
     							</div>
     						</a>
                             <div class="dropdown-footer text-center">
-    							<a href="javascript:;">View more</a>
+    							<a href="javascript:;">Clear all</a>
     						</div>
     					</div>
     				</li>
@@ -151,9 +150,30 @@
 			</div>
 		</div>
 
+        <div class="modal fade show" id="dispose-item-modal" aria-modal="true" style="display: none;">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">FOOD NAME AND SIMPLE DESCRIPTION</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+                        <div class="dispose_option">
+
+                        </div>
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
+						<a href="javascript:;" class="btn btn-danger confirm_dispose_item">Dispose</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
         <script type="text/javascript" src="assets/js/app.min.js"></script>
         <script type="text/javascript" src="assets/plugins/moment/moment.min.js"></script>
         <script type="text/javascript" src="assets/plugins/gritter/js/jquery.gritter.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/swal/swal.min.js"></script>
 
         <script type="text/javascript" src="assets/js/default.min.js"></script>
         <script type="text/javascript" src="assets/custom/data/data.js"></script>

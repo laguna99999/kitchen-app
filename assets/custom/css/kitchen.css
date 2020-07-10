@@ -7,7 +7,7 @@
     height: 17px;
     line-height: 17px;
     font-weight: 600;
-    padding: 3px 6px;
+    padding: 0;
     border-radius: 50%;
 }
 #gritter-notice-wrapper{
@@ -27,16 +27,16 @@
 .item-title ul.ingredients li a{
     color: gray;
 }
-.item-attributes ul{
+.item-attributes ul, .dispose_option ul{
     list-style: none;
     padding: 0;
     margin: 0;
 }
-.item-attributes ul li{
+.item-attributes ul li, .dispose_option ul li{
     position: relative;
     padding-left: 25px;
 }
-.item-attributes ul li i{
+.item-attributes ul li i, .dispose_option ul li i{
     position: absolute;
     left: 0;
     top: 50%;
@@ -61,4 +61,9 @@
     line-height: 40px;
     cursor: pointer;
     margin-bottom: 10px;
+}
+
+.swal-text {
+    padding: 0 50px;
+    font-size: 14px;
 }

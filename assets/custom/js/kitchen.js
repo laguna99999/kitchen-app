@@ -1,16 +1,11 @@
 let cook_option = 'batch'; // Batch cook or amount cook
+let selected_item_id = -1;
 
 // App
 let init = () => {
     // Welcome message
     setTimeout(function() {
-    	$.gritter.add({
-    		title: 'Welcome back, admin!',
-    		text: 'Please start cooking.',
-    		sticky: false,
-    		time: '3000',
-    		class_name: 'my-sticky-class'
-    	});
+        kitchen_notification('Welcome back, admin!', 'Please start cooking.', 'assets/img/media/user.png');
     }, 1000);
     // Timestamp
     setInterval(function(){
@@ -40,6 +35,7 @@ let render_item_list = () => {
 }
 let select_item = (id) => {
     // Select an item from item list
+    selected_item_id = id;
     $('.item').removeClass('active');
     $(`li[data-item-id=${ id }]`).addClass('active');
     render_item_detail(id);
@@ -132,7 +128,7 @@ let render_item_detail = (id) => {
                                     <div class="batch d-flex justify-content-between aligh-items-center m-b-10">
                                         <div class="batch-info" style="width: 85%;">
                                             <div class="widget-chart-info-progress d-flex justify-content-between">
-                                                <div class="width-200">
+                                                <div class="width-220">
                                                     <b>Started cooking: ${ moment(_item.started_cooking_time, 'MM-DD HH:mm').format('HH:mm') }</b>
                                                     <span>(${ get_elapsed_time_string(get_elapsed_hr_min(_item.started_cooking_time)) } ago)</span>
                                                 </div>
@@ -176,7 +172,7 @@ let render_item_detail = (id) => {
                                                     <b>Cooked on: ${ moment(_item.cooked_on, 'MM-DD HH:mm').format('HH:mm') } </b> <span>(${ get_elapsed_time_string(get_elapsed_hr_min(_item.cooked_on)) } ago)</span>
                                                 </div>
                                                 <div class="width-200">
-                                                    <b>Time to dispose: ${ get_elapsed_time_string(get_elapsed_hr_min(_item.cooked_on)) } </b>
+                                                    <b>Time to dispose: ${ get_time_to_disposal(item.best_serving_hours, _item.cooked_on) } </b>
                                                 </div>
                                                 <div class="width-150">
                                                     <b>Remaining: ${ _item.remaining_amount } (g)</b>
@@ -187,7 +183,7 @@ let render_item_detail = (id) => {
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-green-darker" style="width: ${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%"></div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-sm btn-danger width-90" type="button" name="button"  onclick="dispose_item(${ item.id })"><i class="fa fa-times m-r-5"></i>Dispose</button>
+                                        <button class="btn btn-sm btn-danger width-90" type="button" name="button"  onclick="dispose_item('${ item.id }', '${ _item.id }')"><i class="fa fa-times m-r-5"></i>Dispose</button>
                                     </div>
                                 `;
                             })
@@ -315,11 +311,11 @@ let cook_option_render = (id) => {
     $('.cook_option').append($(template));
 }
 let confirm_cook_item = (id) => {
-    $('#cook-item-modal').modal('hide');
     let data = get_data();
     let item = [...data.filter(item => item.id == id)][0];
     let amount = 0;
     let batch = $('input[name="batch_count"]:checked').val();
+    let sm = false;
     if(cook_option == 'batch'){
         if(batch == 0){
             amount = item.maximum_amount / 2;
@@ -328,13 +324,22 @@ let confirm_cook_item = (id) => {
         }
     }else{
         amount = $('.item_amount').val();
+        if(amount == ''){
+            amount = 0;
+        }
+        if(amount == 0){
+            return;
+        }
         item.cooking_items.push({
             id: generate_id(),
             cooking_amount: amount,
             started_cooking_time: moment().format('MM-DD HH:mm')
         })
     }
-    if(batch == 0) batch++;
+    if(batch == 0) {
+        batch++;
+        sm = true;
+    }
     for(let i = 0; i < batch; i++){
         item.cooking_items.push({
             id: generate_id(),
@@ -342,6 +347,19 @@ let confirm_cook_item = (id) => {
             started_cooking_time: moment().format('MM-DD HH:mm')
         })
     }
+    $('#cook-item-modal').modal('hide');
+    kitchen_notification("Cooking started!", `You started cooking ${ item.name } ${ (() => {
+        if(cook_option != 'batch'){
+            return `${ amount } g`;
+        }else{
+            if(sm){
+                return `small batch. (${ amount })`;
+            }else{
+                return `${ batch } batches. (${ batch * amount } g)`;
+            }
+        }
+    })() }`, 'assets/img/media/info.png', false, 5000);
+
     set_data(data);
     render_item_detail(id);
 }
@@ -355,26 +373,158 @@ let ready_item = (item_id, cooking_item_id) => {
 		remaining_amount: cooking_item.cooking_amount,
 		cooked_on: moment().format('MM-DD HH:mm')
 	}
-    item.cooked_items.push(cooked_item);
-    let idx = -1;
-	for(let i = 0; i < item.cooking_items.length; i++){
-		if(item.cooking_items[i].id == cooking_item_id){
-			idx = i;
-		}
-	}
-	if(idx != -1){
-		item.cooking_items.splice(idx, 1);
-	}
-    set_data(data);
-    render_item_detail(item_id);
+
+    swal({
+			title: 'Are you sure?',
+			text: 'Please checkout the quality of the food. You can not revert this action. Do you guarantee the quality of food?',
+			icon: 'info',
+            closeOnClickOutside: false,
+			buttons: {
+				cancel: {
+					text: 'No, I think this item needs re-cook',
+					value: false,
+					visible: true,
+					className: 'btn btn-default',
+					closeModal: true
+				},
+				confirm: {
+					text: 'Yes, I guarantee!',
+					value: true,
+					visible: true,
+					className: 'btn btn-primary',
+					closeModal: true
+				}
+			}
+		}).then(function(result){
+            if(result){
+                item.cooked_items.push(cooked_item);
+                let idx = -1;
+            	for(let i = 0; i < item.cooking_items.length; i++){
+            		if(item.cooking_items[i].id == cooking_item_id){
+            			idx = i;
+            		}
+            	}
+            	if(idx != -1){
+            		item.cooking_items.splice(idx, 1);
+            	}
+                set_data(data);
+                render_item_list();
+                render_item_detail(item_id);
+                kitchen_notification("Cooking finished!", `You finished cooking ${ item.name } ${ cooked_item.cooked_amount } g`, 'assets/img/media/info.png', false, 5000);
+            }
+        });
+
 }
 
 // Disposal functions
-let dispose_item = (id) => {
-
+let dispose_item = (item_id, cooked_item_id) => {
+    let data = get_data();
+    let item = data.filter(item => item.id == item_id)[0];
+	let cooked_item = item.cooked_items.filter(_item => _item.id == cooked_item_id)[0];
+    $('#dispose-item-modal').attr('item-id', item_id);
+    $('#dispose-item-modal').attr('cooked-item-id', cooked_item_id);
+    $('#dispose-item-modal .modal-header h4').text('You are going to dispose ' + item.name);
+    $('#dispose-item-modal .dispose_option').empty();
+    $('#dispose-item-modal .dispose_option').append($(`
+        <div class="w-100 d-flex justify-content-between">
+            <div class="w-50">
+                <span class="f-s-15 f-w-700">Attributes </span>
+                <ul class="m-t-10">
+                    <li>
+                        <i class="fa fa-circle"></i>
+                        <span class="f-s-14">Cooked on: ${ cooked_item.cooked_on }(${ get_elapsed_time_string(get_elapsed_hr_min(cooked_item.cooked_on)) } ago)</span>
+                    </li>
+                    <li>
+                        <i class="fa fa-circle"></i>
+                        <span class="f-s-14">Time to dispose: ${ get_time_to_disposal(item.best_serving_hours, cooked_item.cooked_on) }</span>
+                    </li>
+                    <li>
+                        <i class="fa fa-circle"></i>
+                        <span class="f-s-14">Current amount: ${ cooked_item.remaining_amount } g</span>
+                    </li>
+                    <li>
+                        <i class="fa fa-circle"></i>
+                        <span class="f-s-14">Remaining percent: ${ Math.floor(cooked_item.remaining_amount / item.maximum_amount * 100) }%</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="w-50">
+                <div class="m-b-20"><span class="f-s-15 f-w-700">Input disposal amount </span></div>
+                <div class="d-flex w-100">
+                    <div class="w-50 d-flex flex-column justify-content-between align-items-end">
+                        <div class="w-100">
+                            <input type="text" class="form-control dispose_amount" maximum-amount="${ cooked_item.remaining_amount }" placeholder="Maximum: ${ cooked_item.remaining_amount }" />
+                            <div class="m-t-5 dispose_remaining">Remaining after disposal: ${ cooked_item.remaining_amount } g</div>
+                            <div class="w-100">
+                                <span class="f-s-15 f-w-700">Disposal reason </span>
+                                <div class="custom-control custom-radio m-t-5 m-b-5">
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_0" value="Something is in the food">
+                                    <label class="custom-control-label" for="reason_0">Something is in the food</label>
+                                </div>
+                                <div class="custom-control custom-radio m-b-5">
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_1" value="Best serving time out" checked>
+                                    <label class="custom-control-label" for="reason_1">Best serving time out</label>
+                                </div>
+                                <div class="custom-control custom-radio m-b-5">
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_2" value="Not needed anymore">
+                                    <label class="custom-control-label" for="reason_2">Not needed anymore</label>
+                                </div>
+                                <div class="custom-control custom-radio m-b-5">
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_3" value="Other">
+                                    <label class="custom-control-label" for="reason_3">Other</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-danger width-90 m-b-10" onclick="key_tap_dispose('-3')">Dispose all</button>
+                    </div>
+                    <div class="keyboard d-flex w-50 flex-row justify-content-between p-r-20 p-l-20 flex-wrap">
+                        <div onclick="key_tap_dispose('1')">1</div>
+                        <div onclick="key_tap_dispose('2')">2</div>
+                        <div onclick="key_tap_dispose('3')">3</div>
+                        <div onclick="key_tap_dispose('4')">4</div>
+                        <div onclick="key_tap_dispose('5')">5</div>
+                        <div onclick="key_tap_dispose('6')">6</div>
+                        <div onclick="key_tap_dispose('7')">7</div>
+                        <div onclick="key_tap_dispose('8')">8</div>
+                        <div onclick="key_tap_dispose('9')">9</div>
+                        <div onclick="key_tap_dispose('-2')"><i class="fa fa-times"></i></div>
+                        <div onclick="key_tap_dispose('0')">0</div>
+                        <div onclick="key_tap_dispose('-1')"><i class="fa fa-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `));
+    $('#dispose-item-modal').modal('show');
 }
-let confirm_dispose_item = (id) => {
-
+let confirm_dispose_item = (item_id, cooked_item_id) => {
+    let disposal_amount = $('.dispose_amount').val();
+    if((disposal_amount == '') || (disposal_amount == '0')){
+        return false; // Invalid amount.
+    }else{
+        $('#dispose-item-modal').modal('hide');
+        let data = get_data();
+        let item = data.filter(item => item.id == item_id)[0];
+    	let cooked_item = item.cooked_items.filter(_item => _item.id == cooked_item_id)[0];
+        let disposal_reason = $('input[name="disposal_reason"]:checked').val();
+        if(cooked_item.remaining_amount == disposal_amount){
+    		// Remove item
+    		let idx = -1;
+    		for(let i = 0; i < item.cooked_items.length; i++){
+    			if(item.cooked_items[i].id == cooked_item_id){
+    				idx = i; break;
+    			}
+    		}
+    		if(idx != -1){
+    			item.cooked_items.splice(idx, 1);
+    		}
+    	}else{
+    		cooked_item.remaining_amount = cooked_item.remaining_amount - disposal_amount;
+    	}
+        kitchen_notification("Item disposed!", `You disposed ${ item.name } ${ disposal_amount } g, Reason: ${ disposal_reason }`, 'assets/img/media/info.png', false, 5000);
+        set_data(data);
+        render_item_detail(item_id);
+    }
 }
 let dispose_history = (id) => {
 
@@ -399,13 +549,46 @@ let key_tap = (key) => {
     }else{
         val += key;
     }
+    if((val.length != 1) && (val[0] == '0')){
+        val = val.slice(1);
+    }
+    if(val == ''){
+        val = 0;
+    }
     $('.item_amount').val(val);
-    if(parseInt(val) < parseInt(max)){
+    if(parseInt(val) <= parseInt(max)){
         $('.item_amount').removeClass('text-red');
         $('.item_percent').text(`${ Math.floor(parseInt(val) / parseInt(max) * 100) } %`);
     }else{
         $('.item_amount').addClass('text-red');
         $('.item_percent').text(`Invalid amount. You need to input smaller than maximum amount.(${ max }g)`);
+    }
+}
+let key_tap_dispose = (key) => {
+    let val = $('.dispose_amount').val();
+    let max = $('.dispose_amount').attr('maximum-amount');
+    if(key == '-1'){
+        val = val.slice(0, -1);
+    }else if(key == '-2'){
+        val = '';
+    }else if(key == '-3'){
+        val = max;
+    }else{
+        val += key;
+    }
+    if((val.length != 1) && (val[0] == '0')){
+        val = val.slice(1);
+    }
+    if(val == ''){
+        val = 0;
+    }
+    $('.dispose_amount').val(val);
+    if(parseInt(val) <= parseInt(max)){
+        $('.dispose_amount').removeClass('text-red');
+        $('.dispose_remaining').text(`Remaining after disposal: ${ max - val } g`);
+    }else{
+        $('.dispose_amount').addClass('text-red');
+        $('.dispose_remaining').text(`Invalid amount. You need to input smaller than maximum amount.(${ max }g)`);
     }
 }
 $('input[name="cook_option"]').change(function(){
@@ -414,4 +597,7 @@ $('input[name="cook_option"]').change(function(){
 })
 $('.confirm_start_cooking').click(function(){
     confirm_cook_item($('#cook-item-modal').attr('item-id'));
+})
+$('.confirm_dispose_item').click(function(){
+    confirm_dispose_item($('#dispose-item-modal').attr('item-id'), $('#dispose-item-modal').attr('cooked-item-id'));
 })
