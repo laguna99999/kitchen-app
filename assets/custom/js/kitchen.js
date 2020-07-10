@@ -18,7 +18,7 @@ let get_elapsed_hr_min = (time) => {
 }
 let get_elapsed_time_string = (hr_min) => {
     if(hr_min.hr == 0){
-        if((hr_min.min == 1) && (hr_min.min == 0)){
+        if((hr_min.min == 1) || (hr_min.min == 0)){
             return hr_min.min + ' min';
         }else{
             return hr_min.min + ' mins';
@@ -31,6 +31,10 @@ let get_elapsed_time_string = (hr_min) => {
         }
     }
 }
+
+let generate_id = () => {
+    return '_' + Math.random().toString(36).substr(2, 9);
+};
 
 // App
 let init = () => {
@@ -162,7 +166,7 @@ let render_item_detail = (id) => {
                             let cooking_items = ``;
                             item.cooking_items.map(_item => {
                                 cooking_items += `
-                                    <div class="batch d-flex justify-content-between aligh-items-center">
+                                    <div class="batch d-flex justify-content-between aligh-items-center m-b-10">
                                         <div class="batch-info" style="width: 85%;">
                                             <div class="widget-chart-info-progress d-flex justify-content-between">
                                                 <div class="width-200">
@@ -178,10 +182,10 @@ let render_item_detail = (id) => {
                                                 <span class="pull-right">${ Math.floor(_item.cooking_amount / item.maximum_amount * 100) }%</span>
                                             </div>
                                             <div class="progress progress-sm">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner" style="width: ${ Math.floor(_item.cooking_amount / item.maximum_amount * 100) }%;"></div>
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-teal-lighter" style="width: ${ Math.floor(_item.cooking_amount / item.maximum_amount * 100) }%;"></div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-sm btn-primary width-90" type="button" name="button" onclick="ready_item(${ item.id })"><i class="fa fa-check m-r-5"></i>Ready</button>
+                                        <button class="btn btn-sm btn-primary width-90" type="button" name="button" onclick="ready_item('${ item.id }', '${ _item.id }')"><i class="fa fa-check m-r-5"></i>Ready</button>
                                     </div>
                                 `;
                             })
@@ -209,15 +213,15 @@ let render_item_detail = (id) => {
                                                     <b>Cooked on: ${ moment(_item.cooked_on, 'MM-DD HH:mm').format('HH:mm') } </b> <span>(${ get_elapsed_time_string(get_elapsed_hr_min(_item.cooked_on)) } ago)</span>
                                                 </div>
                                                 <div class="width-200">
-                                                    <b>Time to dispose: ${ get_elapsed_time_string(get_elapsed_hr_min(_item.cooked_on)) } mins </b>
+                                                    <b>Time to dispose: ${ get_elapsed_time_string(get_elapsed_hr_min(_item.cooked_on)) } </b>
                                                 </div>
-                                                <div class="width-100">
+                                                <div class="width-150">
                                                     <b>Remaining: ${ _item.remaining_amount } (g)</b>
                                                 </div>
                                                 <span class="pull-right">${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%</span>
                                             </div>
                                             <div class="progress progress-sm m-b-15">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-warning" style="width: ${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%"></div>
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-green-darker" style="width: ${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%"></div>
                                             </div>
                                         </div>
                                         <button class="btn btn-sm btn-danger width-90" type="button" name="button"  onclick="dispose_item(${ item.id })"><i class="fa fa-times m-r-5"></i>Dispose</button>
@@ -250,7 +254,7 @@ let render_item_detail = (id) => {
     $('.item-details').empty();
     $('.item-details').append($(template));
 }
-
+// Cooking functions
 let cook_item = (id) => {
     let item = [...all_items.filter(item => item.id == id)][0];
     $('#cook-item-modal .modal-header h4').text('You are going to cook ' + item.name);
@@ -344,10 +348,58 @@ let cook_option_render = (id) => {
     $('.cook_option').empty();
     $('.cook_option').append($(template));
 }
-
 let confirm_cook_item = (id) => {
-
+    $('#cook-item-modal').modal('hide');
+    let item = [...all_items.filter(item => item.id == id)][0];
+    let amount = 0;
+    let batch = $('input[name="batch_count"]:checked').val();
+    if(cook_option == 'batch'){
+        if(batch == 0){
+            amount = item.maximum_amount / 2;
+        }else{
+            amount = item.maximum_amount;
+        }
+    }else{
+        amount = $('.item_amount').val();
+        item.cooking_items.push({
+            id: generate_id(),
+            cooking_amount: amount,
+            started_cooking_time: moment().format('MM-DD HH:mm')
+        })
+    }
+    if(batch == 0) batch++;
+    for(let i = 0; i < batch; i++){
+        item.cooking_items.push({
+            id: generate_id(),
+            cooking_amount: amount,
+            started_cooking_time: moment().format('MM-DD HH:mm')
+        })
+    }
+    render_item_detail(id);
 }
+let ready_item = (item_id, cooking_item_id) => {
+    let item = all_items.filter(item => item.id == item_id)[0];
+	let cooking_item = item.cooking_items.filter(_item => _item.id == cooking_item_id)[0];
+    let cooked_item = {
+		id: cooking_item.id,
+		cooked_amount: cooking_item.cooking_amount,
+		remaining_amount: cooking_item.cooking_amount,
+		cooked_on: moment().format('MM-DD HH:mm')
+	}
+    item.cooked_items.push(cooked_item);
+    let idx = -1;
+	for(let i = 0; i < item.cooking_items.length; i++){
+		if(item.cooking_items[i].id == cooking_item_id){
+			idx = i;
+		}
+	}
+	if(idx != -1){
+		item.cooking_items.splice(idx, 1);
+	}
+    render_item_detail(item_id);
+}
+
+// Disposal functions
 let dispose_item = (id) => {
 
 }
@@ -389,4 +441,7 @@ let key_tap = (key) => {
 $('input[name="cook_option"]').change(function(){
     cook_option = $(this).val();
     cook_option_render($(this).attr('item-id'));
+})
+$('.confirm_start_cooking').click(function(){
+    confirm_cook_item($('#cook-item-modal').attr('item-id'));
 })
