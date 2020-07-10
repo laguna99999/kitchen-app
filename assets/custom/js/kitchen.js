@@ -1,41 +1,5 @@
 let cook_option = 'batch'; // Batch cook or amount cook
 
-// Functions
-let get_elapsed_hr_min = (time) => {
-    let hr = Math.trunc(moment().diff(moment(time, 'MM-DD HH:mm'), 'minutes') / 60);
-    let min = moment().diff(moment(time, 'MM-DD HH:mm'), 'minutes') % 60;
-    if(hr < 0) hr += 24;
-    if(min < 0){
-        if(hr == 0){
-            hr = 23;
-        }
-        min += 60;
-    }
-    return {
-        hr: Math.abs(hr),
-        min: Math.abs(min)
-    };
-}
-let get_elapsed_time_string = (hr_min) => {
-    if(hr_min.hr == 0){
-        if((hr_min.min == 1) || (hr_min.min == 0)){
-            return hr_min.min + ' min';
-        }else{
-            return hr_min.min + ' mins';
-        }
-    }else{
-        if((hr_min.min == 1) && (hr_min.min == 0)){
-            return hr_min.hr + ' hr ' + hr_min.min + ' min';
-        }else{
-            return hr_min.hr + ' hr ' + hr_min.min + ' mins';
-        }
-    }
-}
-
-let generate_id = () => {
-    return '_' + Math.random().toString(36).substr(2, 9);
-};
-
 // App
 let init = () => {
     // Welcome message
@@ -43,8 +7,8 @@ let init = () => {
     	$.gritter.add({
     		title: 'Welcome back, admin!',
     		text: 'Please start cooking.',
-    		sticky: true,
-    		time: '',
+    		sticky: false,
+    		time: '3000',
     		class_name: 'my-sticky-class'
     	});
     }, 1000);
@@ -54,9 +18,10 @@ let init = () => {
     }, 1000);
 }
 
+// Item list in the sidebar and page rendering
 let render_item_list = () => {
     // Renders item on sidebar
-    let data = [...all_items]; // Need to be changed
+    let data = get_data(); // Need to be changed
 
     $('.item-list').empty();
     data.map(item => {
@@ -73,18 +38,16 @@ let render_item_list = () => {
     })
     select_item(data[0].id);
 }
-
 let select_item = (id) => {
     // Select an item from item list
     $('.item').removeClass('active');
     $(`li[data-item-id=${ id }]`).addClass('active');
-
     render_item_detail(id);
 }
-
 let render_item_detail = (id) => {
     // Renders item detail in the main content
-    let item = [...all_items.filter(item => item.id == id)][0];
+    let data = get_data();
+    let item = [...data.filter(item => item.id == id)][0];
     let template = `
         <div class="vertical-box-column p-t-15 p-b-15" style="height: 750px;">
             <div class="w-100 h-100 d-flex flex-row flex-row">
@@ -254,9 +217,11 @@ let render_item_detail = (id) => {
     $('.item-details').empty();
     $('.item-details').append($(template));
 }
+
 // Cooking functions
 let cook_item = (id) => {
-    let item = [...all_items.filter(item => item.id == id)][0];
+    let data = get_data();
+    let item = [...data.filter(item => item.id == id)][0];
     $('#cook-item-modal .modal-header h4').text('You are going to cook ' + item.name);
     $('#cook-item-modal input').attr('item-id', id);
     cook_option = 'batch';
@@ -270,7 +235,8 @@ let cook_item = (id) => {
     $('#cook-item-modal').modal('show');
 }
 let cook_option_render = (id) => {
-    let item = [...all_items.filter(item => item.id == id)][0];
+    let data = get_data();
+    let item = [...data.filter(item => item.id == id)][0];
     let template = `
         <div class="w-100 d-flex justify-content-between">
             <div class="item-attributes height-200 w-50">
@@ -350,7 +316,8 @@ let cook_option_render = (id) => {
 }
 let confirm_cook_item = (id) => {
     $('#cook-item-modal').modal('hide');
-    let item = [...all_items.filter(item => item.id == id)][0];
+    let data = get_data();
+    let item = [...data.filter(item => item.id == id)][0];
     let amount = 0;
     let batch = $('input[name="batch_count"]:checked').val();
     if(cook_option == 'batch'){
@@ -375,10 +342,12 @@ let confirm_cook_item = (id) => {
             started_cooking_time: moment().format('MM-DD HH:mm')
         })
     }
+    set_data(data);
     render_item_detail(id);
 }
 let ready_item = (item_id, cooking_item_id) => {
-    let item = all_items.filter(item => item.id == item_id)[0];
+    let data = get_data();
+    let item = data.filter(item => item.id == item_id)[0];
 	let cooking_item = item.cooking_items.filter(_item => _item.id == cooking_item_id)[0];
     let cooked_item = {
 		id: cooking_item.id,
@@ -396,6 +365,7 @@ let ready_item = (item_id, cooking_item_id) => {
 	if(idx != -1){
 		item.cooking_items.splice(idx, 1);
 	}
+    set_data(data);
     render_item_detail(item_id);
 }
 
