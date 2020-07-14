@@ -50,8 +50,8 @@ let get_time_to_disposal = (bs_hr, cooked_time) => {
     let hr = Math.trunc(diff / 60);
     let min = diff % 60;
     return get_elapsed_time_string({
-        hr: Math.abs(hr),
-        min: Math.abs(min)
+        hr: hr,
+        min: min
     })
 }
 

@@ -11,6 +11,12 @@ let init = () => {
     setInterval(function(){
         $('.timestamp').text(moment().format('HH:mm:ss DD, MMM YYYY'));
     }, 1000);
+
+    setInterval(function(){
+        // Updates timestamps
+        render_item_detail(selected_item_id);
+        render_notification();
+    }, 30 * 1000)
 }
 
 // Item list in the sidebar and page rendering
@@ -37,10 +43,16 @@ let select_item = (id) => {
     // Select an item from item list
     selected_item_id = id;
     $('.item').removeClass('active');
+    $('.raw-material').removeClass('active');
     $(`li[data-item-id=${ id }]`).addClass('active');
+    $('.item-details').parent().find('.widget-header-title').text('Item details');
     render_item_detail(id);
 }
 let render_item_detail = (id) => {
+    if(id == -1){
+        // render raw materials
+        return;
+    }
     // Renders item detail in the main content
     let data = get_data();
     let item = [...data.filter(item => item.id == id)][0];
@@ -72,7 +84,7 @@ let render_item_detail = (id) => {
                     <hr>
                     <div class="item-description height-250">
                         <span class="f-s-15 f-w-700">Cooking procedure </span>
-                        <div class="m-t-10 f-s-14">${ item.recipe }</div>
+                        <div class="m-t-10 f-s-14" contenteditable="true">${ item.recipe }</div>
                     </div>
                     <hr>
                     <div class="item-attributes height-200">
@@ -172,7 +184,14 @@ let render_item_detail = (id) => {
                                                     <b>Cooked on: ${ moment(_item.cooked_on, 'MM-DD HH:mm').format('HH:mm') } </b> <span>(${ get_elapsed_time_string(get_elapsed_hr_min(_item.cooked_on)) } ago)</span>
                                                 </div>
                                                 <div class="width-200">
-                                                    <b>Time to dispose: ${ get_time_to_disposal(item.best_serving_hours, _item.cooked_on) } </b>
+                                                    <b>Time to dispose: ${ (() => {
+                                                        let time_string = get_time_to_disposal(item.best_serving_hours, _item.cooked_on);
+                                                        if(time_string.indexOf('-') != -1){
+                                                            return `<span class="text-danger">${ time_string }</span>`;
+                                                        }else{
+                                                            return time_string;
+                                                        }
+                                                    })() } </b>
                                                 </div>
                                                 <div class="width-150">
                                                     <b>Remaining: ${ _item.remaining_amount } (g)</b>
@@ -458,11 +477,11 @@ let dispose_item = (item_id, cooked_item_id) => {
                             <div class="w-100">
                                 <span class="f-s-15 f-w-700">Disposal reason </span>
                                 <div class="custom-control custom-radio m-t-5 m-b-5">
-                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_0" value="Something is in the food">
-                                    <label class="custom-control-label" for="reason_0">Something is in the food</label>
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_0" value="Comsume for customers" checked>
+                                    <label class="custom-control-label" for="reason_0">Comsume for customers</label>
                                 </div>
                                 <div class="custom-control custom-radio m-b-5">
-                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_1" value="Best serving time out" checked>
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_1" value="Best serving time out">
                                     <label class="custom-control-label" for="reason_1">Best serving time out</label>
                                 </div>
                                 <div class="custom-control custom-radio m-b-5">
@@ -470,8 +489,12 @@ let dispose_item = (item_id, cooked_item_id) => {
                                     <label class="custom-control-label" for="reason_2">Not needed anymore</label>
                                 </div>
                                 <div class="custom-control custom-radio m-b-5">
-                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_3" value="Other">
-                                    <label class="custom-control-label" for="reason_3">Other</label>
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_3" value="Something is in the food">
+                                    <label class="custom-control-label" for="reason_3">Something is in the food</label>
+                                </div>
+                                <div class="custom-control custom-radio m-b-5">
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_4" value="Other">
+                                    <label class="custom-control-label" for="reason_4">Other</label>
                                 </div>
                             </div>
                         </div>
