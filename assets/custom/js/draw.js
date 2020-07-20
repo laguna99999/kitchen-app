@@ -78,14 +78,12 @@ let camera_trigger = (id) => {
         snapSoundElement = document.querySelector('#dispose-raw-modal .snapSound');
     }
     $('.webcam').removeClass('hide');
-    $('.canvas').removeClass('hide');
     $('.camera-image').addClass('hide');
     $('.camera-image').attr('src', '');
     webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
     webcam.start()
         .then(result =>{
             console.log("webcam started");
-
         })
         .catch(err => {
             console.log(err);

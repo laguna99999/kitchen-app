@@ -181,121 +181,91 @@ let raw_materials = [
   {
     "id": 7123,
     "name": "Rice",
-    "image": "http://placehold.it/320x320",
     "description": "In officia laboris veniam voluptate incididunt cillum exercitation minim anim consequat. Ut Lorem nisi fugiat incididunt consequat aliquip voluptate. Ex nulla labore anim cupidatat consectetur magna in tempor nisi ea nostrud mollit Lorem. Dolor anim eu nulla proident. Et eu in deserunt consectetur esse qui proident velit irure magna elit dolore mollit pariatur.\r\n",
-    "qty": 1000,
     "history": []
   },
   {
     "id": 8391,
     "name": "Meat",
-    "image": "http://placehold.it/320x320",
     "description": "Duis enim anim nulla tempor ut officia magna ea. Quis sint elit Lorem reprehenderit commodo esse nulla adipisicing do eu voluptate id et. Est nisi pariatur eu eiusmod fugiat est occaecat labore mollit labore.\r\n",
-    "qty": 3000,
     "history": []
   },
   {
     "id": 4924,
     "name": "Radish",
-    "image": "http://placehold.it/320x320",
     "description": "Cupidatat consequat elit veniam in exercitation excepteur aliquip elit. Ad ea ad do ullamco incididunt aute aliqua. Nisi exercitation ullamco dolore quis consectetur pariatur. Non consequat officia pariatur cillum ex aliqua in consequat occaecat. Pariatur mollit non voluptate occaecat. Laborum ex in id quis cillum anim deserunt velit quis proident.\r\n",
-    "qty": 500,
     "history": []
   },
   {
     "id": 9272,
     "name": "Rice",
-    "image": "http://placehold.it/320x320",
     "description": "Laborum non in sit ad eu laboris eiusmod minim laboris nulla dolore. Aliqua excepteur dolore dolore quis excepteur adipisicing laborum. Amet culpa veniam sit dolore sunt laboris culpa magna nisi magna. Velit exercitation velit aute irure ea laborum duis dolor minim sint.\r\n",
-    "qty": 0,
     "history": []
   },
   {
     "id": 6470,
     "name": "Beans",
-    "image": "http://placehold.it/320x320",
     "description": "Irure ad duis eu deserunt aute eiusmod adipisicing esse consequat dolor labore sint aliquip proident. Nulla ullamco reprehenderit id ea mollit incididunt anim pariatur irure aute. Tempor irure do ipsum duis quis esse ut esse. Quis elit aliqua deserunt commodo aute reprehenderit laborum reprehenderit. Dolore qui do duis esse culpa nisi cillum. Proident aliqua incididunt elit pariatur aliqua cillum cillum amet consectetur in nulla officia mollit.\r\n",
-    "qty": 3000,
     "history": []
   },
   {
     "id": 3971,
     "name": "Wheet",
-    "image": "http://placehold.it/320x320",
     "description": "Ut deserunt adipisicing anim in eiusmod voluptate elit velit proident sit sunt cillum Lorem est. Nisi ad est mollit ea excepteur. Nisi laborum sit amet aute. Aliqua ex cillum excepteur nulla elit fugiat in do eu id.\r\n",
-    "qty": 3000,
     "history": []
   },
   {
     "id": 6726,
     "name": "Radish",
-    "image": "http://placehold.it/320x320",
     "description": "Id sint ex voluptate aliqua eu consectetur anim ex fugiat amet cillum in enim fugiat. Dolor reprehenderit enim fugiat ullamco velit proident. Id duis occaecat ad anim deserunt fugiat ex non amet tempor quis ullamco aliquip. Commodo ut et aliquip voluptate veniam ea culpa velit est labore proident ad. Cillum sint exercitation est et reprehenderit velit et deserunt adipisicing anim.\r\n",
-    "qty": 500,
     "history": []
   },
   {
     "id": 1374,
     "name": "Rice",
-    "image": "http://placehold.it/320x320",
     "description": "Sint enim veniam consequat commodo exercitation tempor minim consequat amet et eiusmod cillum labore. Commodo nisi labore elit laborum quis laborum magna aliquip et veniam tempor cupidatat. Labore nostrud labore elit anim nulla sit amet deserunt pariatur commodo pariatur. Labore ullamco duis consequat sint eiusmod eiusmod magna commodo quis irure ex et.\r\n",
-    "qty": 2000,
     "history": []
   },
   {
     "id": 9571,
     "name": "Milk",
-    "image": "http://placehold.it/320x320",
     "description": "Excepteur ipsum nulla exercitation aliquip culpa sunt sint. Enim mollit proident elit ea ut minim consectetur velit fugiat. Et dolor qui in exercitation elit. Amet et id laborum ad officia do laborum nostrud sit sit qui tempor dolore nisi. Tempor tempor veniam fugiat non sint adipisicing aliqua. Nulla commodo est qui est duis irure elit pariatur fugiat et adipisicing. Proident enim laborum eu sit enim minim dolor consequat deserunt ut ex tempor.\r\n",
-    "qty": 2500,
     "history": []
   },
   {
     "id": 1110,
     "name": "Flour",
-    "image": "http://placehold.it/320x320",
     "description": "Commodo velit eu qui pariatur adipisicing cupidatat magna ea quis ex consectetur reprehenderit. Amet sint dolore irure laborum exercitation. Laborum ex id qui ea nisi mollit consequat ut Lorem qui sint proident.\r\n",
-    "qty": 500,
     "history": []
   },
   {
     "id": 1051,
     "name": "Flour",
-    "image": "http://placehold.it/320x320",
     "description": "Labore id magna ex consectetur enim consequat. Minim occaecat ipsum exercitation duis excepteur pariatur quis nulla deserunt ex Lorem exercitation Lorem. Ipsum id laborum incididunt id id Lorem reprehenderit ut deserunt est irure.\r\n",
-    "qty": 500,
     "history": []
   },
   {
     "id": 2706,
     "name": "Rice",
-    "image": "http://placehold.it/320x320",
     "description": "Laborum ipsum nisi consequat non pariatur sint et commodo pariatur cillum dolor. Voluptate commodo voluptate occaecat occaecat fugiat consectetur consectetur cupidatat non occaecat anim tempor. Minim consectetur ipsum amet laborum cupidatat voluptate esse. Laboris ea enim labore nostrud enim ea.\r\n",
-    "qty": 3000,
     "history": []
   },
   {
     "id": 3683,
     "name": "Carrot",
-    "image": "http://placehold.it/320x320",
     "description": "Consequat elit deserunt Lorem culpa. Magna excepteur aliquip reprehenderit eiusmod veniam sint anim quis velit cupidatat nostrud non. Ad irure veniam eiusmod ea. Quis voluptate ad pariatur nostrud aute nisi eiusmod amet officia tempor velit ad deserunt. Deserunt enim est enim consequat non incididunt duis ut aute et. Voluptate eiusmod aliqua aliquip cupidatat laboris excepteur officia.\r\n",
-    "qty": 1500,
     "history": []
   },
   {
     "id": 2907,
     "name": "Wheet",
-    "image": "http://placehold.it/320x320",
     "description": "Do fugiat commodo officia laborum adipisicing excepteur velit elit pariatur culpa minim. Ipsum exercitation culpa duis mollit excepteur anim voluptate incididunt esse est. Amet pariatur nisi incididunt elit in voluptate labore.\r\n",
-    "qty": 500,
     "history": []
   },
   {
     "id": 2394,
     "name": "Meat",
-    "image": "http://placehold.it/320x320",
     "description": "Do pariatur ipsum eiusmod ad exercitation eu ad veniam laborum officia fugiat esse aliqua duis. Id aliqua sint ex ullamco adipisicing Lorem. Sit enim est amet exercitation dolore tempor ipsum velit. Enim anim do Lorem id anim tempor veniam nulla. Id anim laborum deserunt quis irure dolor. Et reprehenderit incididunt nulla mollit elit nisi veniam sit amet consectetur sunt deserunt non sit.\r\n",
-    "qty": 0,
     "history": []
   }
 ];
