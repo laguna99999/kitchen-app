@@ -9,12 +9,23 @@ let get_data = () => {
 		return JSON.parse(localStorage.getItem('itemListData'));
 	}
 }
-
+let get_raw_data = () => {
+    // Get item data from local storage. If there is no data in localstorage, it will look up server data.
+    if(!localStorage.getItem('rawMaterialData')){
+		localStorage.setItem('rawMaterialData', JSON.stringify(raw_materials)); // all_times should be replaced with server data. Located in data.js file.
+		return raw_materials;
+	}else{
+		return JSON.parse(localStorage.getItem('rawMaterialData'));
+	}
+}
 let set_data = (data) => {
     // Set item data to local storage
     localStorage.setItem('itemListData', JSON.stringify(data));
 }
-
+let set_raw_data = (data) => {
+    // Set item data to local storage
+    localStorage.setItem('rawMaterialData', JSON.stringify(data));
+}
 let get_elapsed_hr_min = (time) => {
     let hr = Math.trunc(moment().diff(moment(time, 'MM-DD HH:mm'), 'minutes') / 60);
     let min = moment().diff(moment(time, 'MM-DD HH:mm'), 'minutes') % 60;

@@ -67,3 +67,20 @@
     padding: 0 50px;
     font-size: 14px;
 }
+.raw-material-list, .raw-material-disposal-history{
+    overflow: auto;
+}
+.raw-material-list ul, .raw-material-disposal-history ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.raw-material-list ul li, .raw-material-disposal-history ul li{
+    margin-left: 10px;
+}
+.raw-material-list ul hr, .raw-material-disposal-history ul hr{
+    margin: 3px;
+}
+.raw-material-list li.active .widget-list-item{
+    background: rgba(100, 0, 0, 0.1)
+}
