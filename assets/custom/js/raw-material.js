@@ -96,28 +96,30 @@ let render_history_data = (raw_id) => {
             <hr>
             ${ (() => {
                 let tag = ``;
-                item.history.map(history => {
-                    tag +=
-                        `<li>
-                            <div class="widget-list widget-list-rounded">
-                                <div class="widget-list-item">
-                                    <div class="widget-list-media">
-                                        <img src="${ history.image ? history.image : (history.signature ? history.signature : 'assets/img/items/alt.png') }" class="rounded" />
-                                    </div>
-                                    <div class="widget-list-content">
-                                        <h4 class="widget-list-title">
-                                            <div class="m-t-3">${ history.reason ? "Reason: " + history.reason : '' }</div>
-                                        </h4>
-                                        <div class="d-flex d-row justify-content-between m-t-5">
-                                            <p class="widget-list-desc">${ moment(history.timestamp, 'MM-DD HH:mm').format('DD MMM, HH:mm') } ( ${ get_elapsed_time_string(get_elapsed_hr_min(history.timestamp)) } ago )</p>
-                                            <p class="widget-list-desc">Qty: ${ history.qty } g </p>
+                if(item.history){
+                    item.history.map(history => {
+                        tag +=
+                            `<li>
+                                <div class="widget-list widget-list-rounded">
+                                    <div class="widget-list-item">
+                                        <div class="widget-list-media">
+                                            <img src="${ history.image ? history.image : (history.signature ? history.signature : 'assets/img/items/alt.png') }" class="rounded" />
+                                        </div>
+                                        <div class="widget-list-content">
+                                            <h4 class="widget-list-title">
+                                                <div class="m-t-3">${ history.reason ? "Reason: " + history.reason : '' }</div>
+                                            </h4>
+                                            <div class="d-flex d-row justify-content-between m-t-5">
+                                                <p class="widget-list-desc">${ moment(history.timestamp, 'MM-DD HH:mm').format('DD MMM, HH:mm') } ( ${ get_elapsed_time_string(get_elapsed_hr_min(history.timestamp)) } ago )</p>
+                                                <p class="widget-list-desc">Qty: ${ history.qty } g </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <hr>`;
-                })
+                            </li>
+                            <hr>`;
+                    })
+                }
                 return tag;
             })() }
         </ul>
@@ -209,7 +211,9 @@ $('.confirm_dispose_raw').click(function(){
     dispose_raw_confirm(selected_raw_id);
 })
 $(document).ready(function(){
-    setInterval(() => {
-        render_history_data(selected_raw_id)
-    }, 30 * 1000)
+    if(selected_raw_id != -1){
+        setInterval(() => {
+            render_history_data(selected_raw_id)
+        }, 30 * 1000)
+    }
 })

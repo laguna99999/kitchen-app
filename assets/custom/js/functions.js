@@ -73,7 +73,8 @@ let generate_id = () => {
 
 let kitchen_notification = (title, text, image = '', sticky = false, time = 3000, play_sound = false) => {
     if(play_sound){
-
+        let audio = new Audio('assets/notify.mp3');
+        audio.play();
     }
     // Add notifications to local storage
     let notifications = [];

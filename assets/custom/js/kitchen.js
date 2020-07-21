@@ -17,6 +17,47 @@ let init = () => {
         render_item_detail(selected_item_id);
         render_notification();
     }, 30 * 1000)
+
+    setInterval(function(){
+        let data = get_data();
+        let cooked_items = [];
+        data.map(item => {
+            cooked_items = [...cooked_items, ...item.cooked_items]
+        })
+        cooked_items.map(item => {
+            // Check safety level
+            if(item.remaining_amount < item.maximum_amount * item.safety_level / 100){
+                // Unsafe.
+                if(!item.notified){
+                    item.notified = true;
+                    kitchen_notification(
+                        `${ item.name } is below safety level`,
+                        `You are running out of ${ item.name } and need to cook more.`,
+                        'assets/img/media/danger.png',
+                        false,
+                        5000,
+                        true
+                    );
+                }
+            }
+            // Check best serving hours over
+            let time = get_elapsed_hr_min(moment(item.cooked_on, 'MM-DD HH:mm').subtract(item.cooking_time, 'hours').format('MM-DD HH:mm'));
+            if((time.hr * 60 + time.min) > (item.best_serving_hours * 60)){
+                if(!item.notified){
+                    item.notified = true;
+                    kitchen_notification(
+                        `${ item.name } is almost out of best serving hours`,
+                        `${ item.name } cooked long ago and quality went bad. Please cook this item again.`,
+                        'assets/img/media/danger.png',
+                        false,
+                        5000,
+                        true
+                    );
+                }
+            }
+        })
+        set_data(data);
+    }, 60 * 1000) // Check cook/dispose items
 }
 
 // Item list in the sidebar and page rendering
@@ -196,10 +237,20 @@ let render_item_detail = (id) => {
                                                 <div class="width-150">
                                                     <b>Remaining: ${ _item.remaining_amount } (g)</b>
                                                 </div>
-                                                <span class="pull-right">${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%</span>
+                                                <span class="pull-right text-${ (_item.remaining_amount < _item.maximum_amount * _item.safety_level / 100) ? 'danger' : 'dark' }">${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%</span>
                                             </div>
                                             <div class="progress progress-sm m-b-15">
-                                                <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-green-darker" style="width: ${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%"></div>
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner bg-${ (() => {
+                                                    if(_item.remaining_amount < _item.maximum_amount * _item.safety_level / 100){
+                                                        return 'danger';
+                                                    }else if((2 * _item.remaining_amount) < (_item.maximum_amount * _item.safety_level / 100)){
+                                                        return 'warning';
+                                                    }else if(_item.remaining_amount != _item.cooked_amount){
+                                                        return 'green';
+                                                    }else{
+                                                        return 'green-darker';
+                                                    }
+                                                })() }" style="width: ${ Math.floor(_item.remaining_amount / item.maximum_amount * 100) }%"></div>
                                             </div>
                                         </div>
                                         <button class="btn btn-sm btn-danger width-90" type="button" name="button"  onclick="dispose_item('${ item.id }', '${ _item.id }')"><i class="fa fa-times m-r-5"></i>Dispose</button>
@@ -393,7 +444,11 @@ let ready_item = (item_id, cooking_item_id) => {
 		cooked_amount: cooking_item.cooking_amount,
 		remaining_amount: cooking_item.cooking_amount,
         cooking_started: cooking_item.started_cooking_time,
-		cooked_on: moment().format('MM-DD HH:mm')
+		cooked_on: moment().format('MM-DD HH:mm'),
+        best_serving_hours: item.best_serving_hours,
+        safety_level: item.safety_level,
+        maximum_amount: item.maximum_amount,
+        cooking_time: item.cooking_time
 	}
 
     swal({
@@ -551,6 +606,7 @@ let confirm_dispose_item = (item_id, cooked_item_id) => {
         kitchen_notification("Item disposed!", `You disposed ${ item.name } ${ disposal_amount } g, Reason: ${ disposal_reason }`, 'assets/img/media/info.png', false, 5000);
         set_data(data);
         render_item_detail(item_id);
+        render_item_list();
     }
 }
 let dispose_history = (id) => {
