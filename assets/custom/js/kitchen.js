@@ -386,10 +386,13 @@ let ready_item = (item_id, cooking_item_id) => {
     let data = get_data();
     let item = data.filter(item => item.id == item_id)[0];
 	let cooking_item = item.cooking_items.filter(_item => _item.id == cooking_item_id)[0];
+
     let cooked_item = {
 		id: cooking_item.id,
+        name: item.name,
 		cooked_amount: cooking_item.cooking_amount,
 		remaining_amount: cooking_item.cooking_amount,
+        cooking_started: cooking_item.started_cooking_time,
 		cooked_on: moment().format('MM-DD HH:mm')
 	}
 
@@ -430,6 +433,7 @@ let ready_item = (item_id, cooking_item_id) => {
                 render_item_list();
                 render_item_detail(item_id);
                 kitchen_notification("Cooking finished!", `You finished cooking ${ item.name } ${ cooked_item.cooked_amount } g`, 'assets/img/media/info.png', false, 5000);
+                print_cooked_item(cooked_item);
             }
         });
 
@@ -556,6 +560,64 @@ let soldout_item = (id) => {
 
 }
 
+let print_cooked_item = (item) => {
+    var print_window = window.open('', 'PRINT Cooked item', 'height=800,width=1200');
+    print_window.document.write(`
+        <!DOCTYPE html>
+        <html lang="en" dir="ltr">
+            <head>
+                <meta charset="utf-8">
+                <title>Print Cooked item</title>
+            </head>
+            <style>
+                body{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                }
+                .content{
+                    width: 400px;
+                    height: 600px;
+                    border: 1px solid #e0e0e0;
+                }
+                h1{
+                    text-align: center;
+                }
+                .item-content{
+                    margin: 40px;
+                    height: 500px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+            </style>
+            <body>
+                <div class="content">
+                    <h1>You cooked ${ item.name }</h1>
+                    <div class="item-content">
+                        <div>
+                            <h3>Name: ${ item.name }</h3>
+                            <h3>Amount: ${ item.cooked_amount } g</h3>
+                            <h3>Cooking started on: ${ moment(item.cooking_started, 'MM-DD HH:mm').format('DD MMM, YYYY HH:mm') }</h3>
+                            <h3>Cooking finished on: ${ moment(item.cooked_on, 'MM-DD HH:mm').format('DD MMM, YYYY HH:mm') }</h3>
+                        </div>
+                        <div style="margin-bottom: 40px; text-align: center;">
+                            <p>Thank you for your business.</p>
+                            <p>@2020 WUSHILAND BOBA</p>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    `);
+
+    print_window.print();
+    print_window.close();
+
+    return true;
+}
 
 $(document).ready(function(){
     init();
