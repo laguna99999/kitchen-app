@@ -440,6 +440,7 @@ let ready_item = (item_id, cooking_item_id) => {
 
     let cooked_item = {
 		id: cooking_item.id,
+        item_id: item.id,
         name: item.name,
 		cooked_amount: cooking_item.cooking_amount,
 		remaining_amount: cooking_item.cooking_amount,
@@ -484,6 +485,7 @@ let ready_item = (item_id, cooking_item_id) => {
             	if(idx != -1){
             		item.cooking_items.splice(idx, 1);
             	}
+                set_history('cook', cooked_item, cooked_item.cooked_amount);
                 set_data(data);
                 render_item_list();
                 render_item_detail(item_id);
@@ -603,6 +605,7 @@ let confirm_dispose_item = (item_id, cooked_item_id) => {
     	}else{
     		cooked_item.remaining_amount = cooked_item.remaining_amount - disposal_amount;
     	}
+        set_history('dispose', item, disposal_amount, disposal_reason);
         kitchen_notification("Item disposed!", `You disposed ${ item.name } ${ disposal_amount } g, Reason: ${ disposal_reason }`, 'assets/img/media/info.png', false, 5000);
         set_data(data);
         render_item_detail(item_id);
@@ -610,7 +613,7 @@ let confirm_dispose_item = (item_id, cooked_item_id) => {
     }
 }
 let dispose_history = (id) => {
-
+    console.log(get_history())
 }
 let soldout_item = (id) => {
 

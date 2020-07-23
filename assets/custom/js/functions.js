@@ -70,6 +70,37 @@ let generate_id = () => {
     return '_' + Math.random().toString(36).substr(2, 9);
 };
 
+let set_history = (type, item, qty = 0, reason = '') => {
+    let history = [];
+    if(localStorage.getItem('kitchenHistory')){
+        history = JSON.parse(localStorage.getItem('kitchenHistory'));
+    }else{
+        localStorage.setItem('kitchenHistory', JSON.stringify(history));
+    }
+    history.push({
+        item_id: item.item_id ? item.item_id : item.id,
+        name: item.name,
+        type: type,
+        qty: qty,
+        reason: reason
+    })
+    upload_history({
+        item_id: item.item_id ? item.item_id : item.id,
+        name: item.name,
+        type: type,
+        qty: qty,
+        reason: reason
+    });
+    localStorage.setItem('kitchenHistory', JSON.stringify(history));
+}
+
+let get_history = () => {
+    return JSON.parse(localStorage.getItem('kitchenHistory'));
+}
+
+let reset_history = () => {
+    localStorage.setItem('kitchenHistory', JSON.stringify([]))
+}
 
 let kitchen_notification = (title, text, image = '', sticky = false, time = 3000, play_sound = false) => {
     if(play_sound){
@@ -142,4 +173,9 @@ let render_notification = () => {
 let clear_notifications = () => {
     localStorage.setItem('kitchenNotifications', JSON.stringify([]));
     render_notification();
+}
+// API endpoints
+let upload_history = (history) => {
+    let shop_id = 1; // Should be set while authentication
+    
 }

@@ -1,5 +1,7 @@
 const CLASS = ['green-darker', 'success', 'warning', 'danger'];
 
+let global_history = [];
+
 let all_items = [
     {
         "id":1,
