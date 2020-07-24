@@ -1,3 +1,4 @@
+
 let cook_option = 'batch'; // Batch cook or amount cook
 let selected_item_id = -1;
 
@@ -78,7 +79,12 @@ let render_item_list = () => {
         `;
         $('.item-list').append($(div));
     })
-    select_item(data[0].id);
+
+    if(selected_item_id != -1){
+        select_item(selected_item_id);
+    }else{
+        select_item(data[0].id);
+    }
 }
 let select_item = (id) => {
     // Select an item from item list
@@ -268,12 +274,12 @@ let render_item_detail = (id) => {
             <div class="widget-chart-info">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="widget-chart-info-title">Disposal info</h4>
-                        <p class="widget-chart-info-desc">You disposed 3 times, total 2400 (g) of item today</p>
+                        <h4 class="widget-chart-info-title">Overview</h4>
+                        <p class="widget-chart-info-desc overview_info">${ history_abstract() }</p>
                     </div>
-                    <button class="btn btn-md btn-indigo width-90" type="button" name="button" onclick="dispose_history(${ item.id })">
+                    <button class="btn btn-md btn-indigo width-120" type="button" name="button" onclick="view_history(${ item.id })">
                         <i class="fa fa-history m-r-5"></i>
-                        History
+                        View History
                     </button>
                 </div>
             </div>
@@ -538,8 +544,8 @@ let dispose_item = (item_id, cooked_item_id) => {
                             <div class="w-100">
                                 <span class="f-s-15 f-w-700">Disposal reason </span>
                                 <div class="custom-control custom-radio m-t-5 m-b-5">
-                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_0" value="Comsume for customers" checked>
-                                    <label class="custom-control-label" for="reason_0">Comsume for customers</label>
+                                    <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_0" value="Consume for customers" checked>
+                                    <label class="custom-control-label" for="reason_0">Consume for customers</label>
                                 </div>
                                 <div class="custom-control custom-radio m-b-5">
                                     <input class="custom-control-input" type="radio" name="disposal_reason" id="reason_1" value="Best serving time out">
@@ -608,11 +614,11 @@ let confirm_dispose_item = (item_id, cooked_item_id) => {
         set_history('dispose', item, disposal_amount, disposal_reason);
         kitchen_notification("Item disposed!", `You disposed ${ item.name } ${ disposal_amount } g, Reason: ${ disposal_reason }`, 'assets/img/media/info.png', false, 5000);
         set_data(data);
-        render_item_detail(item_id);
         render_item_list();
+        render_item_detail(selected_item_id);
     }
 }
-let dispose_history = (id) => {
+let view_history = (id) => {
     console.log(get_history())
 }
 let soldout_item = (id) => {

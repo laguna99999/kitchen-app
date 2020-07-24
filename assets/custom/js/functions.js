@@ -70,38 +70,6 @@ let generate_id = () => {
     return '_' + Math.random().toString(36).substr(2, 9);
 };
 
-let set_history = (type, item, qty = 0, reason = '') => {
-    let history = [];
-    if(localStorage.getItem('kitchenHistory')){
-        history = JSON.parse(localStorage.getItem('kitchenHistory'));
-    }else{
-        localStorage.setItem('kitchenHistory', JSON.stringify(history));
-    }
-    history.push({
-        item_id: item.item_id ? item.item_id : item.id,
-        name: item.name,
-        type: type,
-        qty: qty,
-        reason: reason
-    })
-    upload_history({
-        item_id: item.item_id ? item.item_id : item.id,
-        name: item.name,
-        type: type,
-        qty: qty,
-        reason: reason
-    });
-    localStorage.setItem('kitchenHistory', JSON.stringify(history));
-}
-
-let get_history = () => {
-    return JSON.parse(localStorage.getItem('kitchenHistory'));
-}
-
-let reset_history = () => {
-    localStorage.setItem('kitchenHistory', JSON.stringify([]))
-}
-
 let kitchen_notification = (title, text, image = '', sticky = false, time = 3000, play_sound = false) => {
     if(play_sound){
         let audio = new Audio('assets/notify.mp3');
@@ -174,8 +142,61 @@ let clear_notifications = () => {
     localStorage.setItem('kitchenNotifications', JSON.stringify([]));
     render_notification();
 }
+// History control
+let set_history = (type, item, qty = 0, reason = '') => {
+    let history = [];
+    if(localStorage.getItem('kitchenHistory')){
+        history = JSON.parse(localStorage.getItem('kitchenHistory'));
+    }else{
+        localStorage.setItem('kitchenHistory', JSON.stringify(history));
+    }
+    history.push({
+        item_id: item.item_id ? item.item_id : item.id,
+        name: item.name,
+        type: type,
+        qty: qty,
+        reason: reason
+    })
+    upload_history({
+        item_id: item.item_id ? item.item_id : item.id,
+        item_name: item.name,
+        type: type,
+        qty: qty,
+        reason: reason
+    });
+    localStorage.setItem('kitchenHistory', JSON.stringify(history));
+}
+
+let get_history = () => {
+    return JSON.parse(localStorage.getItem('kitchenHistory'));
+}
+
+let history_abstract = () => {
+    let history = JSON.parse(localStorage.getItem('kitchenHistory'));
+    let count_cook = 0;
+    let count_dispose = 0;
+    let qty_cook = 0;
+    let qty_dispose = 0;
+    history.map(item => {
+        if(item.type == 'cook'){
+            count_cook ++;
+            qty_cook += parseInt(item.qty);
+        }else{
+            count_dispose ++;
+            qty_dispose += parseInt(item.qty);
+        }
+    })
+    return `You cooked ${ count_cook } batches, ${ qty_cook } g today. You disposed ${ count_dispose } times, ${ qty_dispose } g.`;
+}
+
+let reset_history = () => {
+    localStorage.setItem('kitchenHistory', JSON.stringify([]))
+}
 // API endpoints
 let upload_history = (history) => {
-    let shop_id = 1; // Should be set while authentication
-    
+    let shop_id = '1'; // Should be set while authentication
+    let key = '12345';
+    history.shop_id = shop_id;
+    history.key = key;
+    log_history(history);
 }
