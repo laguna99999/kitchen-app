@@ -277,10 +277,6 @@ let render_item_detail = (id) => {
                         <h4 class="widget-chart-info-title">Overview</h4>
                         <p class="widget-chart-info-desc overview_info">${ history_abstract() }</p>
                     </div>
-                    <button class="btn btn-md btn-indigo width-120" type="button" name="button" onclick="view_history(${ item.id })">
-                        <i class="fa fa-history m-r-5"></i>
-                        View History
-                    </button>
                 </div>
             </div>
         </div>
