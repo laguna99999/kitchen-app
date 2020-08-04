@@ -113,10 +113,35 @@
                     <div class="col-md-12">
                         <div class="widget widget-rounded m-b-30" data-id="widget">
     						<div class="widget-header">
-    							<h4 class="widget-header-title"></h4>
+    							<h4 class="widget-header-title">User list</h4>
     						</div>
     						<div class="vertical-box with-grid with-border-top item-details">
+                                <p class="user-fetching-error text-danger m-t-20 m-l-20 hide">
+                                    There had been an issue while fetching users from server. Please try again here.
+                                    <i class="fas fa-sync m-l-10 text-blue user-reload" style="cursor: pointer"></i>
+                                </p>
+                                <p class="user-fetching-empty text-danger m-t-20 m-l-20 hide">
+                                    There are no users in the database.
+                                </p>
+                                <table class="table table-hover user-list-table hide">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>User name</th>
+                                            <th>User code</th>
+                                            <th>Database</th>
+                                            <th>Shop</th>
+                                            <th>Key</th>
+                                            <th>Activated</th>
+                                            <th>Created</th>
+                                            <th>Updated</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
+                                    </tbody>
+                                </table>
     						</div>
     					</div>
                     </div>
@@ -158,7 +183,7 @@
                                             <select class="form-control shop-list" name="shop" data-size="10" data-live-search="true" data-style="btn-white">
     											<option value="" selected>Select a Shop</option>
     										</select>
-                                            <p class="text-danger shop-fetching-error hide m-t-10">There had been an error while fetching shop list from server. <i class="fas fa-sync text-blue m-l-10" style="cursor: pointer"></i></p>
+                                            <p class="text-danger shop-fetching-error hide m-t-10">There had been an error while fetching shop list from server. <i class="fas fa-sync text-blue m-l-10 shop-reload" style="cursor: pointer"></i></p>
                                             <p class="text-danger shop-fetching-empty hide m-t-10">There are no shops in selected database. Please choose another one.</p>
                                         </div>
                                     </div>
@@ -173,7 +198,8 @@
                                                     <button type="button" name="button" class="btn btn-warning key-generate">Generate</button>
                                                 </div>
                                             </div>
-                                            <p class="text-danger require-all-fields m-t-10 hide">Please fill all fields above to generate appropriate key</p>
+                                            <p class="text-danger require-key-fields m-t-10 hide">Please fill all fields above to generate appropriate key.</p>
+                                            <p class="text-danger require-all-fields m-t-10 hide">Please fill all fields.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +208,7 @@
 					</div>
 					<div class="modal-footer">
 						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
-						<a href="javascript:;" class="btn btn-success add-user-confirm">Confirm</a>
+						<a href="javascript:;" class="btn btn-success add-user-confirm confirm-btn">Confirm</a>
 					</div>
 				</div>
 			</div>
