@@ -177,15 +177,17 @@ let history_abstract = () => {
     let count_dispose = 0;
     let qty_cook = 0;
     let qty_dispose = 0;
-    history.map(item => {
-        if(item.type == 'cook'){
-            count_cook ++;
-            qty_cook += parseInt(item.qty);
-        }else{
-            count_dispose ++;
-            qty_dispose += parseInt(item.qty);
-        }
-    })
+    if(history){
+      history.forEach(item => {
+          if(item.type == 'cook'){
+              count_cook ++;
+              qty_cook += parseInt(item.qty);
+          }else{
+              count_dispose ++;
+              qty_dispose += parseInt(item.qty);
+          }
+      })
+    }
     return `You cooked ${ count_cook } batches, ${ qty_cook } g today. You disposed ${ count_dispose } times, ${ qty_dispose } g.`;
 }
 
