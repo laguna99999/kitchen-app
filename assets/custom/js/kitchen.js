@@ -58,7 +58,7 @@ let init = () => {
             }
         })
         set_data(data);
-    }, 60 * 1000) // Check cook/dispose items
+    }, 60 * 100000) // Check cook/dispose items
 }
 
 // Item list in the sidebar and page rendering
@@ -104,63 +104,42 @@ let render_item_detail = (id) => {
     let data = get_data();
     let item = [...data.filter(item => item.id == id)][0];
     let template = `
-        <div class="vertical-box-column p-t-15 p-b-15" style="height: 750px;">
-            <div class="w-100 h-100 d-flex flex-row flex-row">
-                <div class="d-flex justify-content-center align-items-center w-50 h-100 flex-wrap" style="border-right: 1px solid #d5dbe0; min-width: 300px;">
-                    <img class="rounded item-image" src="assets/img/items/${ item.picture }.jpg" alt="">
-                </div>
-                <div class="w-50 widget-chart-info p-15" style="min-width: 300px;">
-                    <div class="item-title height-100">
-                        <h3 class="">${ item.name }</h3>
-                        <hr>
-                        <span class="f-s-15 f-w-700">Description </span>
-                        <ul class="ingredients">
-                            ${ (() => {
-                                let ingredients = ``;
-                                item.ingredients.map((_item) => {
-                                    if(_item != item.ingredients[item.ingredients.length - 1]){
-                                        ingredients += `<li><a href="javascript:;">${ _item }</a></li><li>/</li>`;
-                                    }else{
-                                        ingredients += `<li><a href="javascript:;">${ _item }</a></li>`;
-                                    }
-                                })
-                                return ingredients;
-                            })() }
-                        </ul>
-                    </div>
-                    <hr>
-                    <div class="item-description height-250">
-                        <span class="f-s-15 f-w-700">Cooking procedure </span>
-                        <div class="m-t-10 f-s-14" contenteditable="true">${ item.recipe }</div>
-                    </div>
-                    <hr>
-                    <div class="item-attributes height-200">
-                        <span class="f-s-15 f-w-700">Attributes </span>
-                        <ul class="m-t-20">
-                            <li>
-                                <i class="fa fa-circle"></i>
-                                <span class="f-s-14">Best serving hours: ${ item.best_serving_hours } hr</span>
-                            </li>
-                            <li>
-                                <i class="fa fa-circle"></i>
-                                <span class="f-s-14">Cooking time: ${ item.cooking_time } hr</span>
-                            </li>
-                            <li>
-                                <i class="fa fa-circle"></i>
-                                <span class="f-s-14">Safety level: ${ item.safety_level } %</span>
-                            </li>
-                            <li>
-                                <i class="fa fa-circle"></i>
-                                <span class="f-s-14">Maximum amount: ${ item.maximum_amount } (g)</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <hr style="margin-top: 19px;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <button class="btn btn-lg width-150 btn-success" type="button" name="button" onclick="cook_item(${ item.id })">Cook</button>
-                        <button class="btn btn-lg width-150 btn-danger" type="button" name="button" onclick="soldout_item(${ item.id })">Sold out</button>
-                    </div>
-                </div>
+        <div class="vertical-box-column p-t-15 p-b-15" style="width: 30%;">
+            <div class="w-100 h-100 d-flex flex-column align-items-center">
+              <img class="rounded item-image" src="assets/img/items/${ item.picture }.jpg" alt="">
+              <div class="widget-chart-info w-100 m-t-30 p-l-30 p-r-30">
+                  <div class="item-description height-100">
+                      <span class="f-s-15 f-w-700">Cooking procedure </span>
+                      <div class="m-t-10 f-s-14" contenteditable="true">${ item.recipe }</div>
+                  </div>
+                  <hr>
+                  <div class="item-attributes height-120">
+                      <span class="f-s-15 f-w-700">Attributes </span>
+                      <ul class="m-t-20">
+                          <li>
+                              <i class="fa fa-circle"></i>
+                              <span class="f-s-14">Best serving hours: ${ item.best_serving_hours } hr</span>
+                          </li>
+                          <li>
+                              <i class="fa fa-circle"></i>
+                              <span class="f-s-14">Cooking time: ${ item.cooking_time } hr</span>
+                          </li>
+                          <li>
+                              <i class="fa fa-circle"></i>
+                              <span class="f-s-14">Safety level: ${ item.safety_level } %</span>
+                          </li>
+                          <li>
+                              <i class="fa fa-circle"></i>
+                              <span class="f-s-14">Maximum amount: ${ item.maximum_amount } (g)</span>
+                          </li>
+                      </ul>
+                  </div>
+                  <hr style="margin-top: 19px;">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <button class="btn btn-md width-100 btn-success" type="button" name="button" onclick="cook_item(${ item.id })">Cook</button>
+                      <button class="btn btn-md width-100 btn-danger" type="button" name="button" onclick="soldout_item(${ item.id })">Sold out</button>
+                  </div>
+              </div>
             </div>
         </div>
         <div class="vertical-box-column p-15" style="width: 50%;">

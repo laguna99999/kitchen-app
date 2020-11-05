@@ -47,7 +47,8 @@
     color: #00acac;
 }
 .item-image{
-    width: 80%;
+    width: 120px;
+    height: 120px;
 }
 .keyboard div{
     background: linear-gradient(to bottom,#a57ee6 0,#783eda 100%)!important;

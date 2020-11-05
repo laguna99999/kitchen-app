@@ -1,224 +1,362 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>Kitchen admin</title>
-        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-        <meta content="Kitchen application for cookers" name="description" />
-        <meta content="Laguna" name="author" />
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <head>
+    <meta charset="utf-8" />
+    <title>Kitchen admin</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
+    <meta content="Kitchen application for cookers" name="description" />
+    <meta content="Laguna" name="author" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700"
+      rel="stylesheet"
+    />
 
-        <link href="assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
-        <link href="assets/css/app.min.css" rel="stylesheet" />
-        <link href="assets/custom/css/kitchen.css" rel="stylesheet" />
-    </head>
-    <body>
-        <div id="page-container" class="fade page-sidebar-fixed page-header-fixed show has-scroll">
-            <div id="header" class="header navbar-default">
-                <div class="navbar-header">
-                    <a href="index.html" class="navbar-brand">
-                        <span class="navbar-logo"></span>
-                        <b>Kitchen</b> admin
-                    </a>
-                    <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+    <link
+      href="assets/plugins/gritter/css/jquery.gritter.css"
+      rel="stylesheet"
+    />
+    <link href="assets/css/app.min.css" rel="stylesheet" />
+    <link href="assets/custom/css/kitchen.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div
+      id="page-container"
+      class="fade page-sidebar-fixed page-header-fixed show has-scroll"
+    >
+      <div id="header" class="header navbar-default">
+        <div class="navbar-header">
+          <a href="index.html" class="navbar-brand">
+            <span class="navbar-logo"></span>
+            <b>Kitchen</b> admin
+          </a>
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-click="sidebar-toggled"
+          >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <ul class="navbar-nav navbar-right">
+          <li class="navbar-form">
+            <form name="search_form">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter keyword"
+                />
+                <button class="btn btn-search">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </form>
+          </li>
+          <li class="dropdown kitchen-notifications">
+            <a
+              href="javascript:;"
+              data-toggle="dropdown"
+              class="notification-count dropdown-toggle f-s-14"
+              aria-expanded="false"
+            >
+              <i class="fa fa-bell"></i>
+            </a>
+            <div data-scrollbar="true" data-height="100%"></div>
+            <div
+              class="dropdown-menu media-list dropdown-menu-right notifications"
+            >
+              <div class="dropdown-header">NOTIFICATIONS (1)</div>
+              <a href="javascript:;" class="dropdown-item media">
+                <div class="media-left">
+                  <i class="fa fa-circle fa-3x fa-user-circle"></i>
                 </div>
-                <ul class="navbar-nav navbar-right">
-                    <li class="navbar-form">
-                        <form name="search_form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Enter keyword" />
-                                <button class="btn btn-search"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
-                    </li>
-                    <li class="dropdown kitchen-notifications">
-    					<a href="javascript:;" data-toggle="dropdown" class="notification-count dropdown-toggle f-s-14" aria-expanded="false">
-    						<i class="fa fa-bell"></i>
-    					</a>
-                        <div data-scrollbar="true" data-height="100%"></div>
-    					<div class="dropdown-menu media-list dropdown-menu-right notifications">
-                            <div class="dropdown-header">NOTIFICATIONS (1)</div>
-                            <a href="javascript:;" class="dropdown-item media">
-    							<div class="media-left">
-    								<i class="fa fa-circle fa-3x fa-user-circle"></i>
-    							</div>
-    							<div class="media-body">
-    								<h6 class="media-heading"> Welcome back! You have logged in.</h6>
-    								<div class="text-muted f-s-10">1 min ago</div>
-    							</div>
-    						</a>
-                            <div class="dropdown-footer text-center">
-    							<a href="javascript:;">Clear all</a>
-    						</div>
-    					</div>
-    				</li>
-                    <li class="dropdown navbar-user">
-                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-circle fa-user-circle"></i>
-                            <span class="d-none d-md-inline">Admin</span> <b class="caret"></b>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-    						<a href="login.html" class="dropdown-item">Log Out</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div id="sidebar" class="sidebar">
-                <div data-scrollbar="true" data-height="100%">
-                    <ul class="nav">
-    					<li class="nav-profile">
-    						<a href="javascript:;" data-toggle="nav-profile">
-    							<div class="info">
-    								<b class="caret pull-right"></b>Admin
-    								<small>Kitchen system manager</small>
-    							</div>
-    						</a>
-    					</li>
-    					<li>
-    						<ul class="nav nav-profile closed" style="display: none;">
-    							<li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
-    							<li><a href="javascript:;"><i class="fa fa-question-circle"></i> Tutorial</a></li>
-                                <li><a href="javascript:;"><i class="fa fa-sign-out-alt"></i> Log out</a></li>
-    						</ul>
-    					</li>
-    				</ul>
-                    <ul class="nav menu">
-                        <li>
-                            <a href="javascript:;" class="d-flex align-items-center justify-content-start" style="height: 50px;">
-                                <i class="fas fa-users"></i>
-                                <p class="w-50 m-0 m-l-10">USERS</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="d-flex align-items-center justify-content-start" style="height: 50px;">
-                                <i class="fas fa-history"></i>
-                                <p class="w-50 m-0 m-l-10">USER LOG</p>
-                            </a>
-                        </li>
-                    </ul>
+                <div class="media-body">
+                  <h6 class="media-heading">
+                    Welcome back! You have logged in.
+                  </h6>
+                  <div class="text-muted f-s-10">1 min ago</div>
                 </div>
+              </a>
+              <div class="dropdown-footer text-center">
+                <a href="javascript:;">Clear all</a>
+              </div>
             </div>
+          </li>
+          <li class="dropdown navbar-user">
+            <a
+              href="javascript:;"
+              class="dropdown-toggle"
+              data-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa fa-circle fa-user-circle"></i>
+              <span class="d-none d-md-inline">Admin</span>
+              <b class="caret"></b>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a href="login.html" class="dropdown-item">Log Out</a>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-            <div id="content" class="content">
-                <div class="d-flex justify-content-between align-items-center">
-                    <button type="button" name="button" class="btn btn-primary add-new-user"><i class="fas fa-plus"></i> New user</button>
-                    <h1 class="page-header timestamp text-muted">TIMESTAMP</h1>
+      <div id="sidebar" class="sidebar">
+        <div data-scrollbar="true" data-height="100%">
+          <ul class="nav">
+            <li class="nav-profile">
+              <a href="javascript:;" data-toggle="nav-profile">
+                <div class="info">
+                  <b class="caret pull-right"></b>Admin
+                  <small>Kitchen system manager</small>
+                </div>
+              </a>
+            </li>
+            <li>
+              <ul class="nav nav-profile closed" style="display: none">
+                <li>
+                  <a href="javascript:;"><i class="fa fa-cog"></i> Settings</a>
+                </li>
+                <li>
+                  <a href="javascript:;"
+                    ><i class="fa fa-question-circle"></i> Tutorial</a
+                  >
+                </li>
+                <li>
+                  <a href="javascript:;"
+                    ><i class="fa fa-sign-out-alt"></i> Log out</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav menu">
+            <li>
+              <a
+                href="javascript:;"
+                class="d-flex align-items-center justify-content-start"
+                style="height: 50px"
+              >
+                <i class="fas fa-users"></i>
+                <p class="w-50 m-0 m-l-10">USERS</p>
+              </a>
+            </li>
+            <li>
+              <a
+                href="javascript:;"
+                class="d-flex align-items-center justify-content-start"
+                style="height: 50px"
+              >
+                <i class="fas fa-history"></i>
+                <p class="w-50 m-0 m-l-10">USER LOG</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="content" class="content">
+        <div class="d-flex justify-content-between align-items-center">
+          <button
+            type="button"
+            name="button"
+            class="btn btn-primary add-new-user"
+          >
+            <i class="fas fa-plus"></i> New user
+          </button>
+          <h1 class="page-header timestamp text-muted">TIMESTAMP</h1>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="widget widget-rounded m-b-30" data-id="widget">
+              <div class="widget-header">
+                <h4 class="widget-header-title">User list</h4>
+              </div>
+              <div class="vertical-box with-grid with-border-top item-details">
+                <p class="user-fetching-error text-danger m-t-20 m-l-20 hide">
+                  There had been an issue while fetching users from server.
+                  Please try again here.
+                  <i
+                    class="fas fa-sync m-l-10 text-blue user-reload"
+                    style="cursor: pointer"
+                  ></i>
+                </p>
+                <p class="user-fetching-empty text-danger m-t-20 m-l-20 hide">
+                  There are no users in the database.
+                </p>
+                <table class="table table-hover user-list-table hide">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User name</th>
+                      <th>User code</th>
+                      <th>Database</th>
+                      <th>Shop</th>
+                      <th>Key</th>
+                      <th>Activated</th>
+                      <th>Created</th>
+                      <th>Updated</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade show"
+      id="addUser"
+      aria-modal="true"
+      style="display: none"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add a new user</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="new-user-form">
+              <fieldset>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="">User name</label>
+                      <input type="text" name="username" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label for="">Database</label>
+                      <select
+                        class="form-control database-list"
+                        name="database"
+                        data-size="10"
+                        data-live-search="true"
+                        data-style="btn-white"
+                      >
+                        <option value="" selected>Select a Database</option>
+                      </select>
+                      <p
+                        class="text-danger database-fetching-error hide m-t-10"
+                      >
+                        There had been an error while fetching database list.
+                        <i
+                          class="fas fa-sync text-blue m-l-10 database-reload"
+                          style="cursor: pointer"
+                        ></i>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="">User code</label>
+                      <input type="text" name="usercode" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label for="">Shop (Select database first)</label>
+                      <select
+                        class="form-control shop-list"
+                        name="shop"
+                        data-size="10"
+                        data-live-search="true"
+                        data-style="btn-white"
+                      >
+                        <option value="" selected>Select a Shop</option>
+                      </select>
+                      <p class="text-danger shop-fetching-error hide m-t-10">
+                        There had been an error while fetching shop list from
+                        server.
+                        <i
+                          class="fas fa-sync text-blue m-l-10 shop-reload"
+                          style="cursor: pointer"
+                        ></i>
+                      </p>
+                      <p class="text-danger shop-fetching-empty hide m-t-10">
+                        There are no shops in selected database. Please choose
+                        another one.
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="widget widget-rounded m-b-30" data-id="widget">
-    						<div class="widget-header">
-    							<h4 class="widget-header-title">User list</h4>
-    						</div>
-    						<div class="vertical-box with-grid with-border-top item-details">
-                                <p class="user-fetching-error text-danger m-t-20 m-l-20 hide">
-                                    There had been an issue while fetching users from server. Please try again here.
-                                    <i class="fas fa-sync m-l-10 text-blue user-reload" style="cursor: pointer"></i>
-                                </p>
-                                <p class="user-fetching-empty text-danger m-t-20 m-l-20 hide">
-                                    There are no users in the database.
-                                </p>
-                                <table class="table table-hover user-list-table hide">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>User name</th>
-                                            <th>User code</th>
-                                            <th>Database</th>
-                                            <th>Shop</th>
-                                            <th>Key</th>
-                                            <th>Activated</th>
-                                            <th>Created</th>
-                                            <th>Updated</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-    						</div>
-    					</div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for=""
+                        >Key (You can generate after filling all info)</label
+                      >
+                      <div class="input-group form-group">
+                        <input
+                          type="key"
+                          name="key"
+                          class="form-control"
+                          readonly
+                        />
+                        <div class="input-group-append">
+                          <button
+                            type="button"
+                            name="button"
+                            class="btn btn-warning key-generate"
+                          >
+                            Generate
+                          </button>
+                        </div>
+                      </div>
+                      <p class="text-danger require-key-fields m-t-10 hide">
+                        Please fill all fields above to generate appropriate
+                        key.
+                      </p>
+                      <p class="text-danger require-all-fields m-t-10 hide">
+                        Please fill all fields.
+                      </p>
                     </div>
+                  </div>
                 </div>
-            </div>
+              </fieldset>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <a href="javascript:;" class="btn btn-white" data-dismiss="modal"
+              >Cancel</a
+            >
+            <a
+              href="javascript:;"
+              class="btn btn-success add-user-confirm confirm-btn"
+              >Confirm</a
+            >
+          </div>
         </div>
-
-        <div class="modal fade show" id="addUser" aria-modal="true" style="display: none;">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Add a new user</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					</div>
-					<div class="modal-body">
-                        <form class="new-user-form">
-                            <fieldset>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="">User name</label>
-                                            <input type="text" name="username" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Database</label>
-    										<select class="form-control database-list" name="database" data-size="10" data-live-search="true" data-style="btn-white">
-    											<option value="" selected>Select a Database</option>
-    										</select>
-                                            <p class="text-danger database-fetching-error hide m-t-10">There had been an error while fetching database list. <i class="fas fa-sync text-blue m-l-10 database-reload" style="cursor: pointer"></i></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label for="">User code</label>
-                                            <input type="text" name="usercode" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Shop (Select database first)</label>
-                                            <select class="form-control shop-list" name="shop" data-size="10" data-live-search="true" data-style="btn-white">
-    											<option value="" selected>Select a Shop</option>
-    										</select>
-                                            <p class="text-danger shop-fetching-error hide m-t-10">There had been an error while fetching shop list from server. <i class="fas fa-sync text-blue m-l-10 shop-reload" style="cursor: pointer"></i></p>
-                                            <p class="text-danger shop-fetching-empty hide m-t-10">There are no shops in selected database. Please choose another one.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="">Key (You can generate after filling all info)</label>
-                                            <div class="input-group form-group">
-                                                <input type="key" name="key" class="form-control" readonly>
-                                                <div class="input-group-append">
-                                                    <button type="button" name="button" class="btn btn-warning key-generate">Generate</button>
-                                                </div>
-                                            </div>
-                                            <p class="text-danger require-key-fields m-t-10 hide">Please fill all fields above to generate appropriate key.</p>
-                                            <p class="text-danger require-all-fields m-t-10 hide">Please fill all fields.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Cancel</a>
-						<a href="javascript:;" class="btn btn-success add-user-confirm confirm-btn">Confirm</a>
-					</div>
-				</div>
-			</div>
-		</div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-        <script type="text/javascript" src="assets/js/app.min.js"></script>
-        <script type="text/javascript" src="assets/plugins/moment/moment.min.js"></script>
-        <script type="text/javascript" src="assets/plugins/gritter/js/jquery.gritter.min.js"></script>
-        <script type="text/javascript" src="assets/plugins/swal/swal.min.js"></script>
-        <script type="text/javascript" src="assets/js/default.min.js"></script>
-        <script type="text/javascript" src="assets/custom/js/admin.js"></script>
-    </body>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script type="text/javascript" src="assets/js/app.min.js"></script>
+    <script
+      type="text/javascript"
+      src="assets/plugins/moment/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="assets/plugins/gritter/js/jquery.gritter.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="assets/plugins/swal/swal.min.js"
+    ></script>
+    <script type="text/javascript" src="assets/js/default.min.js"></script>
+    <script type="text/javascript" src="assets/custom/js/admin.js"></script>
+  </body>
 </html>
